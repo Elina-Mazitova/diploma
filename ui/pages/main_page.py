@@ -55,3 +55,16 @@ class MainPage(BasePage):
         browser.element(f'//span[text()="{due}"]').should(be.visible)
         return self
 
+
+    @allure.step("Редактировать задачу '{old}' → '{new}'")
+    def edit_task(self, old, new):
+        return self
+
+    @allure.step("Проверить, что задача обновилась на '{new}'")
+    def should_see_updated_task(self, new):
+        browser.element(
+            f'//div[contains(@class, "task_content") and text()="{new}"]'
+        ).should(be.visible)
+        return self
+
+
