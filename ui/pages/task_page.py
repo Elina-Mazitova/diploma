@@ -1,4 +1,5 @@
 from selene import browser, have, be
+from selenium.webdriver.common.keys import Keys
 import allure
 
 
@@ -64,18 +65,27 @@ class TaskPage:
 
     @allure.step("Редактировать задачу '{old}' → '{new}'")
     def edit_task(self, old, new):
-        # 1. Кликаем по задаче в списке
-        task = self.tasks.element_by(have.text(old))
-        task.should(be.visible).click()
+        task = browser.all('.task_content').element_by(have.text(old))
+        browser.driver.execute_script(
+            "arguments[0].scrollIntoView({block: 'center'});", task()
+        )
+        task.should(be.visible).should(be.clickable).click()
 
-        title = browser.element('//div[contains(@class, "task-overview-content-large")]')
-        title.should(be.visible).click()
+        title = browser.element('//div[@class="task_content task-overview-content-large"]')
+        title.should(be.visible).should(be.clickable).click()
 
-        editor = browser.element('//div[@data-typist-editor="true"]')
-        editor.should(be.visible).clear().type(new)
+        editor = browser.driver.switch_to.active_element
 
-        save_button = browser.element('//button[@data-testid="task-editor-submit-button"]')
-        save_button.should(be.visible).click()
+        editor.send_keys(Keys.CONTROL, 'a')
+        editor.send_keys(Keys.DELETE)
+
+        editor.send_keys(new)
+
+        editor.send_keys(Keys.ENTER)
+
+        browser.element(
+            f'//div[@class="task_content task-overview-content-large" and text()="{new}"]'
+        ).should(be.visible)
 
         return self
 
