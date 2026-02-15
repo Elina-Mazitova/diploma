@@ -1,5 +1,5 @@
 import allure
-from pages.project_page import ProjectPage
+from ui.pages.project_page import ProjectPage
 
 
 @allure.tag("UI")

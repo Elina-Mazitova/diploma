@@ -1,5 +1,5 @@
 import allure
-from pages.task_page import TaskPage
+from ui.pages.task_page import TaskPage
 
 @allure.tag("UI")
 @allure.feature("Задачи")
