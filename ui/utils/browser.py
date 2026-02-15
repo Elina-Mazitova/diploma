@@ -18,7 +18,6 @@ def start_browser():
     use_selenoid = all([user, password, host])
 
     if use_selenoid:
-        # Полный URL как в старом проекте
         remote_url = f"https://{user}:{password}@{host}"
 
         options = Options()
