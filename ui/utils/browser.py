@@ -23,7 +23,8 @@ def start_browser():
 
         options = Options()
         options.set_capability("browserName", "chrome")
-        options.set_capability("browserVersion", "120.0")
+        options.set_capability("browserVersion", "latest")
+
         options.set_capability("selenoid:options", {
             "enableVNC": True,
             "enableVideo": True,
