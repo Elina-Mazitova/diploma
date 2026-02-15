@@ -5,16 +5,25 @@ from allure_commons.types import AttachmentType
 from selene import browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from dotenv import load_dotenv
+
+
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 
 def start_browser():
-    use_selenoid = True if os.getenv("CI") == "true" else os.getenv("SELENOID_URL") is not None
+    user = os.getenv("SELENOID_USER")
+    password = os.getenv("SELENOID_PASSWORD")
+    host = os.getenv("SELENOID_HOST")
+
+    use_selenoid = all([user, password, host])
 
     if use_selenoid:
+        selenoid_url = f"https://{user}:{password}@{host}/wd/hub"
+
         options = Options()
         options.set_capability("browserName", "chrome")
         options.set_capability("browserVersion", "120.0")
-
         options.set_capability("selenoid:options", {
             "enableVNC": True,
             "enableVideo": True,
@@ -22,9 +31,10 @@ def start_browser():
         })
 
         driver = webdriver.Remote(
-            command_executor=os.getenv("SELENOID_URL"),
+            command_executor=selenoid_url,
             options=options
         )
+
     else:
         options = Options()
         options.add_argument("--start-maximized")
@@ -86,7 +96,7 @@ def attach_logs(driver):
 def attach_video(driver):
     try:
         session_id = driver.session_id
-        video_host = os.getenv("SELENOID_VIDEO_HOST", "selenoid.autotests.cloud")
+        video_host = os.getenv("SELENOID_HOST", "selenoid.autotests.cloud")
 
         video_url = f"https://{video_host}/video/{session_id}.mp4"
 
