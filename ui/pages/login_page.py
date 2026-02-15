@@ -28,5 +28,7 @@ class LoginPage:
 
     @allure.step("Проверить сообщение об ошибке")
     def should_see_error(self, message):
-        browser.all('.a83bd4e0').element_by(have.text(message)).should(be.visible)
+        browser.all('[class*="a83bd4e0"]').element_by(have.text(message)).should(be.visible)
         return self
+
+

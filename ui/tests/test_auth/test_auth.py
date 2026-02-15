@@ -24,7 +24,7 @@ def test_login_with_wrong_password():
 
     login_page.open_login_page() \
               .login(TODOIST_LOGIN, "wrong_password") \
-              .should_see_error("Неверный Email или пароль.")
+              .should_see_error("Wrong email or password.")
 
 
 @allure.tag("UI")
@@ -35,6 +35,6 @@ def test_login_with_empty_fields():
 
     login_page.open_login_page() \
               .login(TODOIST_LOGIN, "") \
-              .should_see_error("В пароле должно быть не менее 8 символов.")
+              .should_see_error("Passwords must be at least 8 characters long.")
 
 
