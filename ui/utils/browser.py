@@ -19,7 +19,7 @@ def start_browser():
     use_selenoid = all([user, password, host])
 
     if use_selenoid:
-        selenoid_url = f"https://{user}:{password}@{host}/wd/hub"
+        selenoid_url = f"http://{user}:{password}@{host}:4444/wd/hub"
 
         options = Options()
         options.set_capability("browserName", "chrome")
