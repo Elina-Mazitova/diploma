@@ -1,16 +1,16 @@
 import pytest
-from selene import browser
+from utils.browser import start_browser, stop_browser
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
 from data.credentials import TODOIST_LOGIN, TODOIST_PASSWORD
 
 
-@pytest.fixture(autouse=True)
-def reset_browser():
-    browser.open('about:blank')
-    browser.driver.delete_all_cookies()
+@pytest.fixture(scope='function', autouse=True)
+def browser_management():
+    start_browser()
     yield
-    browser.quit()
+    stop_browser()
+
 
 @pytest.fixture
 def authorized_user():
@@ -20,4 +20,3 @@ def authorized_user():
     login_page.open_login_page().login(TODOIST_LOGIN, TODOIST_PASSWORD)
 
     return main_page
-
