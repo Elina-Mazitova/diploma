@@ -7,10 +7,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-# ---------------------------
-#   ЗАПУСК БРАУЗЕРА
-# ---------------------------
-
 def start_browser():
     use_selenoid = os.getenv("SELENOID_URL") is not None
 
@@ -38,11 +34,6 @@ def start_browser():
     browser.config.timeout = float(os.getenv("TIMEOUT", "10"))
     browser.config.base_url = "https://todoist.com"
 
-
-# ---------------------------
-#   ОСТАНОВКА БРАУЗЕРА + ЛОГИ
-# ---------------------------
-
 def stop_browser():
     driver = browser.driver
 
@@ -53,10 +44,6 @@ def stop_browser():
 
     browser.quit()
 
-
-# ---------------------------
-#   АТТАЧИ — КАК В HOMEWORK_14
-# ---------------------------
 
 def attach_screenshot(driver):
     try:
