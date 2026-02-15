@@ -96,7 +96,7 @@ def attach_logs(driver):
 def attach_video(driver):
     try:
         session_id = driver.session_id
-        video_host = os.getenv("SELENOID_HOST", "selenoid.autotests.cloud")
+        video_host = os.getenv("SELENOID_VIDEO_HOST", "selenoid.autotests.cloud")
 
         video_url = f"https://{video_host}/video/{session_id}.mp4"
 
