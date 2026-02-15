@@ -1,7 +1,7 @@
 import pytest
 from ui.utils.browser import start_browser, stop_browser
-from pages.login_page import LoginPage
-from pages.main_page import MainPage
+from ui.pages.login_page import LoginPage
+from ui.pages.main_page import MainPage
 from ui.data.credentials import TODOIST_LOGIN, TODOIST_PASSWORD
 
 
