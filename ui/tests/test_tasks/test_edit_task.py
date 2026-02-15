@@ -1,4 +1,5 @@
 import allure
+from pages.task_page import TaskPage
 
 @allure.tag("UI")
 @allure.feature("Задачи")
@@ -7,6 +8,7 @@ def test_edit_task(authorized_user):
     old_text = "задача три"
     new_text = "задача три исправленный"
 
-    authorized_user.create_task(old_text) \
-                   .edit_task(old_text, new_text) \
-                   .should_see_updated_task(new_text)
+    TaskPage() \
+        .create_task(old_text) \
+        .edit_task(old_text, new_text) \
+        .should_see_updated_task(new_text)
