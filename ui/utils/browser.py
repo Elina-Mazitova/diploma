@@ -9,19 +9,21 @@ from dotenv import load_dotenv
 
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
+
 def start_browser():
     user = os.getenv("SELENOID_USER")
     password = os.getenv("SELENOID_PASSWORD")
-    host = os.getenv("SELENOID_HOST")  # уже содержит /wd/hub
+    host = os.getenv("SELENOID_HOST")  # уже содержит selenoid.autotests.cloud/wd/hub
 
     use_selenoid = all([user, password, host])
 
     if use_selenoid:
+        # Полный URL как в старом проекте
         remote_url = f"https://{user}:{password}@{host}"
 
         options = Options()
         options.set_capability("browserName", "chrome")
-        options.set_capability("browserVersion",  "128.0")
+        options.set_capability("browserVersion", "128.0")
 
         options.set_capability("selenoid:options", {
             "enableVNC": True,
@@ -33,7 +35,6 @@ def start_browser():
             command_executor=remote_url,
             options=options
         )
-
 
     else:
         options = Options()
