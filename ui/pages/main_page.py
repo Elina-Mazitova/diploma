@@ -9,7 +9,6 @@ class MainPage(BasePage):
 
     @allure.step("Проверить, что пользователь успешно авторизован")
     def should_be_logged_in(self):
-        # Ждём перехода на приложение
         browser.with_(timeout=10).wait_until(
             lambda _: '/app/' in browser.driver.current_url
         )
