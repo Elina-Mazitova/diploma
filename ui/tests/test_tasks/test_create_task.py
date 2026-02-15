@@ -1,4 +1,5 @@
 import allure
+from pages.task_page import TaskPage
 
 
 @allure.tag("UI")
@@ -8,6 +9,6 @@ import allure
 def test_create_task(authorized_user):
     task_text = "тест задача"
 
-    authorized_user.create_task(task_text) \
-                   .should_see_task(task_text)
-
+    TaskPage() \
+        .create_task(task_text) \
+        .should_see_task(task_text)
