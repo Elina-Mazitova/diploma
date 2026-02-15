@@ -14,10 +14,8 @@ class MainPage(BasePage):
             lambda _: '/app/' in browser.driver.current_url
         )
 
-        # Ждём появления заголовка
         self.inbox_header.should(be.visible)
 
-        # Ждём появления текста (главное!)
         self.inbox_header.should(have.text('Входящие'))
 
         return self
