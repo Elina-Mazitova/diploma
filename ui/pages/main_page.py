@@ -7,11 +7,6 @@ class MainPage(BasePage):
 
     inbox_header = browser.element('h1.bff24867')
 
-    add_task_button = browser.element('//button[.//span[text()="Добавить задачу"]]')
-    task_input = browser.element('[data-placeholder]')
-    submit_task_button = browser.element('[data-testid="task-editor-submit-button"]')
-    tasks = browser.all('.task_content')
-
     @allure.step("Проверить, что пользователь успешно авторизован")
     def should_be_logged_in(self):
         browser.with_(timeout=10).wait_until(
@@ -20,51 +15,3 @@ class MainPage(BasePage):
         self.inbox_header.should(be.visible)
         self.inbox_header.should(have.text('Входящие'))
         return self
-
-    @allure.step("Создать задачу: {text}")
-    def create_task(self, text):
-        self.add_task_button.click()
-        self.task_input.type(text)
-        self.submit_task_button.click()
-        return self
-
-    @allure.step("Создать задачу с дедлайном: {text}")
-    def create_task_with_due_date(self, text):
-        self.add_task_button.click()
-        self.task_input.type(text)
-
-        due_date_button = browser.element('//div[text()="Срок"]')
-        due_date_button.should(be.visible).click()
-
-        tomorrow_option = browser.element(
-            '//div[@class="scheduler-suggestions-item-label" and text()="Завтра"]'
-        )
-        tomorrow_option.should(be.visible).click()
-
-        self.submit_task_button.click()
-        return self
-
-    @allure.step("Проверить, что задача '{text}' появилась в списке")
-    def should_see_task(self, text):
-        self.tasks.element_by(have.text(text)).should(be.visible)
-        return self
-
-    @allure.step("Проверить, что у задачи '{text}' установлен дедлайн '{due}'")
-    def should_have_due_date(self, text, due):
-        self.tasks.element_by(have.text(text)).should(be.visible)
-        browser.element(f'//span[text()="{due}"]').should(be.visible)
-        return self
-
-
-    @allure.step("Редактировать задачу '{old}' → '{new}'")
-    def edit_task(self, old, new):
-        return self
-
-    @allure.step("Проверить, что задача обновилась на '{new}'")
-    def should_see_updated_task(self, new):
-        browser.element(
-            f'//div[contains(@class, "task_content") and text()="{new}"]'
-        ).should(be.visible)
-        return self
-
-
