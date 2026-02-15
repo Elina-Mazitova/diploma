@@ -1,28 +1,23 @@
 from selene import browser, have, be
-from .base_page import BasePage
 import allure
 
 
-class LoginPage(BasePage):
+class LoginPage:
 
-    email_input = browser.element('#element-0')
-    password_input = browser.element('#element-2')
-    login_button = browser.element('button[type="submit"]')
+    email_input = browser.element('//input[@type="email"]')
+    password_input = browser.element('//input[@type="password"]')
+    login_button = browser.element('//button[@type="submit"]')
 
-    @allure.step("Открыть страницу логина Todoist")
+    @allure.step("Открыть страницу логина")
     def open_login_page(self):
-        self.open("https://app.todoist.com/auth/login")
+        browser.open("https://app.todoist.com/auth/login")
         return self
 
-    @allure.step("Авторизоваться в Todoist")
+    @allure.step("Авторизоваться под пользователем {email}")
     def login(self, email, password):
-        self.email_input.type(email)
-        self.password_input.type(password)
+        self.email_input.should(be.visible).type(email)
+        self.password_input.should(be.visible).type(password)
         self.login_button.should(be.clickable).click()
-
-        # Снимаем фокус, чтобы Todoist показал ошибку
-        browser.element('body').click()
-
         return self
 
     @allure.step("Проверить сообщение об ошибке")
