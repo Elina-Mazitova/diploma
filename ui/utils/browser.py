@@ -8,7 +8,8 @@ from selenium.webdriver.chrome.options import Options
 
 
 def start_browser():
-    use_selenoid = os.getenv("SELENOID_URL") is not None
+    # В Jenkins всегда должен использоваться Selenoid
+    use_selenoid = True if os.getenv("CI") == "true" else os.getenv("SELENOID_URL") is not None
 
     if use_selenoid:
         options = Options()
@@ -26,6 +27,7 @@ def start_browser():
             options=options
         )
     else:
+        # Локальный запуск только на твоём ноутбуке
         options = Options()
         options.add_argument("--start-maximized")
         driver = webdriver.Chrome(options=options)
@@ -33,6 +35,7 @@ def start_browser():
     browser.config.driver = driver
     browser.config.timeout = float(os.getenv("TIMEOUT", "10"))
     browser.config.base_url = "https://todoist.com"
+
 
 def stop_browser():
     driver = browser.driver
