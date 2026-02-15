@@ -28,7 +28,30 @@ class MainPage(BasePage):
         self.submit_task_button.click()
         return self
 
+    @allure.step("Создать задачу с дедлайном: {text}")
+    def create_task_with_due_date(self, text):
+        self.add_task_button.click()
+        self.task_input.type(text)
+
+        due_date_button = browser.element('//div[text()="Срок"]')
+        due_date_button.should(be.visible).click()
+
+        tomorrow_option = browser.element(
+            '//div[@class="scheduler-suggestions-item-label" and text()="Завтра"]'
+        )
+        tomorrow_option.should(be.visible).click()
+
+        self.submit_task_button.click()
+        return self
+
     @allure.step("Проверить, что задача '{text}' появилась в списке")
     def should_see_task(self, text):
         self.tasks.element_by(have.text(text)).should(be.visible)
         return self
+
+    @allure.step("Проверить, что у задачи '{text}' установлен дедлайн '{due}'")
+    def should_have_due_date(self, text, due):
+        self.tasks.element_by(have.text(text)).should(be.visible)
+        browser.element(f'//span[text()="{due}"]').should(be.visible)
+        return self
+
