@@ -7,19 +7,18 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
 
-
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
-
 
 def start_browser():
     user = os.getenv("SELENOID_USER")
     password = os.getenv("SELENOID_PASSWORD")
     host = os.getenv("SELENOID_HOST")
+    selenoid_url = os.getenv("SELENOID_URL")
 
-    use_selenoid = all([user, password, host])
+    use_selenoid = all([user, password, host, selenoid_url])
 
     if use_selenoid:
-        selenoid_url = f"http://{user}:{password}@{host}:4444/wd/hub"
+        remote_url = f"https://{user}:{password}@{host}/wd/hub"
 
         options = Options()
         options.set_capability("browserName", "chrome")
@@ -32,7 +31,7 @@ def start_browser():
         })
 
         driver = webdriver.Remote(
-            command_executor=selenoid_url,
+            command_executor=remote_url,
             options=options
         )
 
