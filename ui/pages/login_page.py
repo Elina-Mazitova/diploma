@@ -4,8 +4,14 @@ import allure
 
 class LoginPage:
 
-    email_input = browser.element('//input[@type="email"]')
-    password_input = browser.element('//input[@type="password"]')
+    email_input = browser.element(
+        '//input[@type="email" or @autocomplete="username"]'
+    )
+
+    password_input = browser.element(
+        '//input[@type="password" or @autocomplete="current-password"]'
+    )
+
     login_button = browser.element('//button[@type="submit"]')
 
     @allure.step("Открыть страницу логина")
