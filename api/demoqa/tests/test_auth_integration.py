@@ -1,10 +1,20 @@
 import allure
 import pytest
 import uuid
+
 from api.demoqa.models.request.user_create_request import UserCreateRequest
 from api.demoqa.models.request.login_request import LoginRequest
 from api.demoqa.models.response.token_response import TokenResponse
 from api.demoqa.pages.login_page import LoginPage
+
+from api.demoqa.utils.browser import start_browser, stop_browser
+
+
+@pytest.fixture(scope="function", autouse=True)
+def setup_browser():
+    start_browser()
+    yield
+    stop_browser()
 
 
 @allure.feature("Авторизация")
