@@ -4,28 +4,33 @@ import allure
 
 class ProjectPage:
 
-    @allure.step("Открыть меню создания проекта (кнопка плюс)")
-    def open_create_project_menu(self):
-        browser.element('//div[text()="Мои проекты"]').hover()
+    @allure.step("Перейти на страницу 'Мои проекты'")
+    def open_projects_page(self):
+        browser.element('//a[@href="/app/projects"]').should(be.visible).click()
+        return self
 
-        browser.element(
-            '//div[text()="Мои проекты"]/following::button[@aria-label="Мои проекты"][1]'
-        ).should(be.visible).click()
-
+    @allure.step("Открыть меню 'Добавить'")
+    def open_add_menu(self):
+        add_button = browser.element('//button[.//span[text()="Добавить"]]').should(be.visible)
+        browser.driver.execute_script("arguments[0].click();", add_button())
         return self
 
     @allure.step("Выбрать 'Добавить проект'")
-    def click_add_project(self):
+    def select_add_project(self):
         browser.element('//div[text()="Добавить проект"]').should(be.visible).click()
         return self
 
     @allure.step("Создать проект '{name}'")
     def create_project(self, name):
-        self.open_create_project_menu()
-        self.click_add_project()
+        self.open_projects_page()
+        self.open_add_menu()
+        self.select_add_project()
 
-        browser.element('//input[@name="name"]').should(be.visible).type(name)
-        browser.element('//button[.//span[text()="Добавить"]]').should(be.visible).click()
+        modal = browser.element('//div[@role="dialog"]').should(be.visible)
+
+        modal.element('.//input[@name="name"]').should(be.visible).type(name)
+
+        modal.element('.//button[@type="submit" and .//span[text()="Добавить"]]').click()
 
         return self
 
