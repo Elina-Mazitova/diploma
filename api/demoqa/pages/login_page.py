@@ -16,6 +16,12 @@ class LoginPage:
             browser.execute_script("document.getElementById('fixedban').style.display='none';")
             browser.execute_script("document.getElementsByTagName('footer')[0].style.display='none';")
 
+        with allure.step("Закрываем всплывающую рекламу, если она есть"):
+            browser.execute_script("""
+                const popup = document.querySelector('div[role="dialog"], .fc-dialog-container, .modal, .popup');
+                if (popup) popup.style.display = 'none';
+            """)
+
         with allure.step("Переходим в Book Store Application"):
             card = browser.element("//h5[text()='Book Store Application']")
             card.should(be.visible)
