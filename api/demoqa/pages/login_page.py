@@ -13,30 +13,15 @@ class LoginPage:
         with allure.step("Скроллим вниз, чтобы увидеть карточки"):
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        with allure.step("Ждём, вдруг поп‑ап сам исчезнет"):
-            time.sleep(3)
+        with allure.step("Закрываем поп‑ап, если он появился"):
+            browser.execute_script("""
+                const btn = document.evaluate("//button[text()='Close']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                if (btn) btn.click();
+            """)
 
         with allure.step("Скрываем рекламный баннер и футер"):
             browser.execute_script("document.getElementById('fixedban').style.display='none';")
             browser.execute_script("document.getElementsByTagName('footer')[0].style.display='none';")
-
-        with allure.step("Закрываем всплывающую рекламу, если она есть"):
-            browser.execute_script("""
-                const selectors = [
-                    '#close-fixedban',
-                    '.fc-dialog-container',
-                    '.modal',
-                    'div[role="dialog"]',
-                    '.popup',
-                    '.advertisement',
-                    '.home-banner',
-                    '.elementor-widget-container'
-                ];
-                selectors.forEach(sel => {
-                    const el = document.querySelector(sel);
-                    if (el) el.style.display = 'none';
-                });
-            """)
 
         with allure.step("Переходим в Book Store Application"):
             card = browser.element("//h5[text()='Book Store Application']")
