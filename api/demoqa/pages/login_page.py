@@ -1,3 +1,4 @@
+import time
 import allure
 from selene import browser, have, be
 
@@ -13,7 +14,7 @@ class LoginPage:
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
         with allure.step("Ждём, вдруг поп‑ап сам исчезнет"):
-            browser.sleep(3)
+            time.sleep(3)
 
         with allure.step("Скрываем рекламный баннер и футер"):
             browser.execute_script("document.getElementById('fixedban').style.display='none';")
@@ -51,3 +52,14 @@ class LoginPage:
             browser.element("#userName").should(be.visible)
 
         return self
+
+    @allure.step("Выполняем логин в UI")
+    def login(self, username: str, password: str):
+        browser.element("#userName").type(username)
+        browser.element("#password").type(password)
+        browser.element("#login").click()
+        return self
+
+    @allure.step("Проверяем, что пользователь '{username}' успешно авторизован")
+    def should_be_logged_in_as(self, username: str):
+        browser.element("#userName-value").should(have.text(username))
