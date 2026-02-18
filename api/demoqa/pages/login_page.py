@@ -13,10 +13,25 @@ class LoginPage:
         with allure.step("Скроллим вниз, чтобы увидеть карточки"):
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        with allure.step("Закрываем поп‑ап, если он появился"):
+        with allure.step("Закрываем все возможные поп‑апы"):
             browser.execute_script("""
-                const btn = document.evaluate("//button[text()='Close']", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-                if (btn) btn.click();
+                const closeButtonsXPaths = [
+                    "//button[text()='Close']",
+                    "//button[text()='Schließen']",
+                    "//button[contains(., 'Close')]",
+                    "//button[contains(., 'Schließen')]",
+                    "//div[contains(@class, 'close')]",
+                    "//span[contains(text(), '×')]",
+                    "//button[contains(@aria-label, 'close')]"
+                ];
+
+                closeButtonsXPaths.forEach(xpath => {
+                    const btn = document.evaluate(
+                        xpath, document, null,
+                        XPathResult.FIRST_ORDERED_NODE_TYPE, null
+                    ).singleNodeValue;
+                    if (btn) btn.click();
+                });
             """)
 
         with allure.step("Скрываем рекламный баннер и футер"):
