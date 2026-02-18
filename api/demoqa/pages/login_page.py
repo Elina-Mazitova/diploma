@@ -12,14 +12,29 @@ class LoginPage:
         with allure.step("Скроллим вниз, чтобы увидеть карточки"):
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
+        with allure.step("Ждём, вдруг поп‑ап сам исчезнет"):
+            browser.sleep(3)
+
         with allure.step("Скрываем рекламный баннер и футер"):
             browser.execute_script("document.getElementById('fixedban').style.display='none';")
             browser.execute_script("document.getElementsByTagName('footer')[0].style.display='none';")
 
         with allure.step("Закрываем всплывающую рекламу, если она есть"):
             browser.execute_script("""
-                const popup = document.querySelector('div[role="dialog"], .fc-dialog-container, .modal, .popup');
-                if (popup) popup.style.display = 'none';
+                const selectors = [
+                    '#close-fixedban',
+                    '.fc-dialog-container',
+                    '.modal',
+                    'div[role="dialog"]',
+                    '.popup',
+                    '.advertisement',
+                    '.home-banner',
+                    '.elementor-widget-container'
+                ];
+                selectors.forEach(sel => {
+                    const el = document.querySelector(sel);
+                    if (el) el.style.display = 'none';
+                });
             """)
 
         with allure.step("Переходим в Book Store Application"):
@@ -36,14 +51,3 @@ class LoginPage:
             browser.element("#userName").should(be.visible)
 
         return self
-
-    @allure.step("Выполняем логин в UI")
-    def login(self, username: str, password: str):
-        browser.element("#userName").type(username)
-        browser.element("#password").type(password)
-        browser.element("#login").click()
-        return self
-
-    @allure.step("Проверяем, что пользователь '{username}' успешно авторизован")
-    def should_be_logged_in_as(self, username: str):
-        browser.element("#userName-value").should(have.text(username))
