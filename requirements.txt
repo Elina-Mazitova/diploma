@@ -39,5 +39,5 @@ wsproto==1.3.2
 zipp==3.23.0
 webdriver-manager
 jsonschema
-pydantic==2.5.3
+pydantic
 appium-python-client==5.2.5
