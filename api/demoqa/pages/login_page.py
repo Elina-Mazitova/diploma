@@ -3,6 +3,10 @@ import allure
 from selene import browser, have, be
 
 
+import allure
+from selene import browser, have, be
+
+
 class LoginPage:
 
     @allure.step("Открываем страницу логина через главную страницу DemoQA")
@@ -10,33 +14,38 @@ class LoginPage:
         with allure.step("Открываем главную страницу"):
             browser.open("https://demoqa.com/")
 
-        with allure.step("Скроллим вниз, чтобы увидеть карточки"):
+        with allure.step("Скроллим вниз"):
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        with allure.step("Закрываем все возможные поп‑апы"):
+        with allure.step("Удаляем рекламу и оверлеи"):
             browser.execute_script("""
-                const closeButtonsXPaths = [
-                    "//button[text()='Close']",
-                    "//button[text()='Schließen']",
-                    "//button[contains(., 'Close')]",
-                    "//button[contains(., 'Schließen')]",
-                    "//div[contains(@class, 'close')]",
-                    "//span[contains(text(), '×')]",
-                    "//button[contains(@aria-label, 'close')]"
-                ];
+                document.querySelectorAll('iframe').forEach(el => el.remove());
 
-                closeButtonsXPaths.forEach(xpath => {
-                    const btn = document.evaluate(
-                        xpath, document, null,
-                        XPathResult.FIRST_ORDERED_NODE_TYPE, null
-                    ).singleNodeValue;
-                    if (btn) btn.click();
+                const ids = ['fixedban', 'adplus-anchor', 'google_ads_iframe'];
+                ids.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.remove();
                 });
+
+                document.querySelectorAll('div').forEach(el => {
+                    const z = window.getComputedStyle(el).zIndex;
+                    if (z && parseInt(z) > 1000) el.remove();
+                });
+
+                document.querySelectorAll("button, span").forEach(el => {
+                    const text = el.innerText.toLowerCase();
+                    if (text.includes("close") || text.includes("schließen") || text.includes("×")) {
+                        try { el.click(); } catch(e) {}
+                    }
+                });
+
+                const footer = document.getElementsByTagName('footer')[0];
+                if (footer) footer.style.display = 'none';
             """)
 
-        with allure.step("Скрываем рекламный баннер и футер"):
-            browser.execute_script("document.getElementById('fixedban').style.display='none';")
-            browser.execute_script("document.getElementsByTagName('footer')[0].style.display='none';")
+        with allure.step("Ждём, пока реклама исчезнет"):
+            browser.all("iframe").should(have.size(0))
+            browser.all("#fixedban").should(have.size(0))
 
         with allure.step("Переходим в Book Store Application"):
             card = browser.element("//h5[text()='Book Store Application']")
