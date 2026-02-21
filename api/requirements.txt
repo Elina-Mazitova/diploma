@@ -1,4 +1,0 @@
-requests==2.32.5
-pytest==9.0.2
-jsonschema
-pydantic
