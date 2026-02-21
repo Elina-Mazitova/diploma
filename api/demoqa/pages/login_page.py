@@ -11,11 +11,11 @@ class LoginPage:
             browser.open("https://demoqa.com/")
 
         with allure.step("Скроллим вниз"):
-            browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+            browser.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
         with allure.step("Удаляем ВСЮ рекламу, баннеры и оверлеи"):
             for _ in range(25):
-                browser.execute_script("""
+                browser.driver.execute_script("""
                     document.querySelectorAll('iframe').forEach(el => el.remove());
 
                     const ids = ['fixedban', 'adplus-anchor', 'google_ads_iframe'];
@@ -59,7 +59,7 @@ class LoginPage:
             card = browser.element("//h5[text()='Book Store Application']/ancestor::a")
             card.should(be.visible)
 
-            browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", card())
+            browser.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", card())
 
             card.click()
 
