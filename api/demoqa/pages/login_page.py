@@ -56,10 +56,9 @@ class LoginPage:
                 time.sleep(0.3)
 
         with allure.step("Переходим в Book Store Application"):
-            card = browser.element("//h5[text()='Book Store Application']")
+            card = browser.element("//h5[text()='Book Store Application']/ancestor::a")
             card.should(be.visible)
 
-            # 🔥 ВАЖНО: скроллим карточку в центр экрана
             browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", card())
 
             card.click()
