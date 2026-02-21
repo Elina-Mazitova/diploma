@@ -1,17 +1,15 @@
-import os
 import json
 import logging
+import os
 
-import pytest
 import allure
-from selene import browser
+import pytest
 from appium import webdriver
 from appium.options.android import UiAutomator2Options
-from mobile.helpers.onboarding_skipper import skip_onboarding
-
+from selene import browser
 
 from mobile.config import load_config
-
+from mobile.utils.onboarding_skipper import skip_onboarding
 
 logger = logging.getLogger(__name__)
 
@@ -131,6 +129,7 @@ def attach_video():
     except Exception as e:
         logger.warning(f"Failed to attach video URL: {e}")
 
+
 @pytest.fixture(autouse=True)
 def skip_onboarding_if_present(request, mobile_management):
     if request.node.get_closest_marker("no_skip_onboarding"):
@@ -140,4 +139,3 @@ def skip_onboarding_if_present(request, mobile_management):
     package = driver.capabilities["appPackage"]
 
     skip_onboarding(driver, package)
-
