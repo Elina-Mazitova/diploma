@@ -1,27 +1,24 @@
-from dotenv import load_dotenv
 import os
+
+from dotenv import load_dotenv
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 def load_config():
-    load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
-    load_dotenv(os.path.join(PROJECT_ROOT, ".env.credentials"))
+    base_env = os.path.join(PROJECT_ROOT, ".env")
+    if os.path.exists(base_env):
+        load_dotenv(base_env)
+
+    credentials_env = os.path.join(PROJECT_ROOT, ".env.credentials")
+    if os.path.exists(credentials_env):
+        load_dotenv(credentials_env)
 
     context = os.getenv("context", "local_emulator")
 
-    env_file = os.path.join(PROJECT_ROOT, f".env.{context}")
-    load_dotenv(env_file)
-
-    print("\n=== CONFIG DEBUG ===")
-    print(f"Loaded context: {context}")
-    print(f"Loaded env file: {env_file}")
-    print(f"UDID = {os.getenv('UDID')}")
-    print(f"DeviceName = {os.getenv('DEVICE_NAME')}")
-    print(f"Platform = {os.getenv('PLATFORM_NAME')}")
-    print(f"BSTACK_USER = {os.getenv('BSTACK_USER')}")
-    print(f"BSTACK_KEY = {os.getenv('BSTACK_KEY')}")
-    print(f"BSTACK_APP = {os.getenv('BSTACK_APP')}")
-    print("====================\n")
+    context_env = os.path.join(PROJECT_ROOT, f".env.{context}")
+    if os.path.exists(context_env):
+        load_dotenv(context_env)
 
     return {
         "context": context,
