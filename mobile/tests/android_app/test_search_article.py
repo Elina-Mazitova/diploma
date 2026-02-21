@@ -1,12 +1,13 @@
-import pytest
 import allure
+import pytest
 
-from mobile.helpers.onboarding_screen import OnboardingScreen
-from mobile.helpers.main_screen import MainScreen
-from mobile.helpers.search_screen import SearchScreen
 from mobile.config import load_config
+from mobile.pages.main_screen import MainScreen
+from mobile.pages.onboarding_screen import OnboardingScreen
+from mobile.pages.search_screen import SearchScreen
 
 config = load_config()
+
 
 @pytest.mark.skipif(config["context"] == "local_real", reason="Поиск пропущен на реальном устройстве")
 @allure.title("Wikipedia: результаты поиска отображаются")
@@ -24,4 +25,3 @@ def test_search_results_visible(mobile_management):
     )
 
     assert result_text != "", "Первый результат поиска не найден"
-

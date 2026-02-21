@@ -1,10 +1,13 @@
-import pytest
 import time
+
+import pytest
 from appium.webdriver.common.appiumby import AppiumBy
-from mobile.helpers.onboarding import onboarding_present, get_text
-from mobile.helpers.onboarding import onboarding_present
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+from mobile.utils.onboarding import get_text
+from mobile.utils.onboarding import onboarding_present
+
 
 @pytest.mark.no_skip_onboarding
 def test_onboarding_full(mobile_management):
@@ -53,6 +56,7 @@ def test_onboarding_full(mobile_management):
 
     home = driver.find_elements(AppiumBy.ID, f"{package}:id/main_toolbar_wordmark")
     assert home, "Home screen did not appear after full onboarding"
+
 
 @pytest.mark.no_skip_onboarding
 def test_onboarding_skip(mobile_management):
