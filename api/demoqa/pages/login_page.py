@@ -1,4 +1,3 @@
-import time
 import allure
 from selene import browser, have, be
 
@@ -13,10 +12,10 @@ class LoginPage:
         with allure.step("Скроллим вниз"):
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        with allure.step("Удаляем рекламу до полного исчезновения"):
-            for _ in range(20):  # до 20 попыток очистки
+        with allure.step("Удаляем ВСЮ рекламу, баннеры и оверлеи"):
+            for _ in range(25):  # до 25 попыток очистки
                 browser.execute_script("""
-                    // Удаляем все iframes (реклама часто в них)
+                    // Удаляем все iframes (частая реклама)
                     document.querySelectorAll('iframe').forEach(el => el.remove());
 
                     // Удаляем известные рекламные блоки
@@ -26,16 +25,27 @@ class LoginPage:
                         if (el) el.remove();
                     });
 
-                    // Удаляем оверлеи с большим z-index
+                    // Удаляем любые div с большим z-index (Hero Wars и др.)
                     document.querySelectorAll('div').forEach(el => {
-                        const z = window.getComputedStyle(el).zIndex;
-                        if (z && parseInt(z) > 1000) el.remove();
+                        const style = window.getComputedStyle(el);
+                        const z = parseInt(style.zIndex);
+                        if (z > 1000) el.remove();
+                    });
+
+                    // Удаляем любые fixed/sticky элементы, перекрывающие страницу
+                    document.querySelectorAll('*').forEach(el => {
+                        const style = window.getComputedStyle(el);
+                        const pos = style.position;
+                        const z = parseInt(style.zIndex);
+                        if ((pos === 'fixed' || pos === 'sticky') && z > 100) {
+                            el.remove();
+                        }
                     });
 
                     // Нажимаем кнопки Close / ×
                     document.querySelectorAll("button, span").forEach(el => {
                         const text = el.innerText.toLowerCase();
-                        if (text.includes("close") || text.includes("schließen") || text.includes("×")) {
+                        if (text.includes("close") || text.includes("×") || text.includes("schließen")) {
                             try { el.click(); } catch(e) {}
                         }
                     });
@@ -45,6 +55,7 @@ class LoginPage:
                     if (footer) footer.style.display = 'none';
                 """)
 
+                # Если iframe исчезли — выходим
                 if len(browser.all("iframe")) == 0:
                     break
 
