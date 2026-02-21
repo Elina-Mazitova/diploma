@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "userID": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}
