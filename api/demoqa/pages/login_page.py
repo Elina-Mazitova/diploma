@@ -1,3 +1,4 @@
+import time
 import allure
 from selene import browser, have, be
 
@@ -59,7 +60,7 @@ class LoginPage:
                 if len(browser.all("iframe")) == 0:
                     break
 
-                browser.sleep(0.3)
+                time.sleep(0.3)
 
         with allure.step("Переходим в Book Store Application"):
             card = browser.element("//h5[text()='Book Store Application']")
