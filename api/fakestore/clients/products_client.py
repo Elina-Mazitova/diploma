@@ -1,4 +1,4 @@
-from .base_client import BaseClient
+from api.fakestore.clients.base_client import BaseClient
 
 
 class ProductsClient(BaseClient):
