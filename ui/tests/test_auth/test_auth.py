@@ -1,7 +1,10 @@
 import allure
-from ui.pages.login_page  import LoginPage
-from ui.pages.main_page import MainPage
+import pytest
+
 from ui.data.credentials import TODOIST_LOGIN, TODOIST_PASSWORD
+from ui.pages.login_page import LoginPage
+from ui.pages.main_page import MainPage
+
 
 @allure.tag("UI")
 @allure.feature("Авторизация")
@@ -10,31 +13,22 @@ def test_successful_login():
     login_page = LoginPage()
     main_page = MainPage()
 
-    login_page.open_login_page() \
-              .login(TODOIST_LOGIN, TODOIST_PASSWORD)
-
+    login_page.open().login(TODOIST_LOGIN, TODOIST_PASSWORD)
     main_page.should_be_logged_in()
 
 
 @allure.tag("UI")
 @allure.feature("Авторизация")
-@allure.story("Неверный пароль")
-def test_login_with_wrong_password():
+@allure.story("Параметризованные негативные проверки")
+@pytest.mark.parametrize(
+    "email, password, expected_error",
+    [
+        ("wrong@mail.com", "wrongpass", "Wrong email or password."),
+        ("test@mail.com", "", "Passwords must be at least 8 characters long."),
+    ],
+)
+def test_negative_login_parametrized(email, password, expected_error):
     login_page = LoginPage()
 
-    login_page.open_login_page() \
-              .login(TODOIST_LOGIN, "wrong_password") \
-              .should_see_error("Wrong email or password.")
-
-
-@allure.tag("UI")
-@allure.feature("Авторизация")
-@allure.story("Пустой пароль")
-def test_login_with_empty_fields():
-    login_page = LoginPage()
-
-    login_page.open_login_page() \
-              .login(TODOIST_LOGIN, "") \
-              .should_see_error("Passwords must be at least 8 characters long.")
-
-
+    login_page.open().login(email, password)
+    login_page.should_see_error(expected_error)

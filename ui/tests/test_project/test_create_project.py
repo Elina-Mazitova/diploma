@@ -1,12 +1,18 @@
 import allure
+
 from ui.pages.project_page import ProjectPage
 
 
-@allure.tag("UI")
+@allure.epic("UI")
 @allure.feature("Проекты")
-@allure.story("Создание проекта")
-def test_create_project(authorized_user):
-    ProjectPage() \
-        .create_project("тест проект") \
-        .should_see_project("тест проект")
+class TestProjects:
 
+    @allure.story("Создание проекта")
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.tag("ui", "projects")
+    def test_create_project(self, authorized_user):
+        page = ProjectPage()
+
+        page.create_project("тест проект")
+
+        page.should_see_project("тест проект")
