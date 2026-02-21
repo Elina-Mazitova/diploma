@@ -14,26 +14,22 @@ class LoginPage:
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
         with allure.step("Удаляем ВСЮ рекламу, баннеры и оверлеи"):
-            for _ in range(25):  # до 25 попыток очистки
+            for _ in range(25):
                 browser.execute_script("""
-                    // Удаляем все iframes (частая реклама)
                     document.querySelectorAll('iframe').forEach(el => el.remove());
 
-                    // Удаляем известные рекламные блоки
                     const ids = ['fixedban', 'adplus-anchor', 'google_ads_iframe'];
                     ids.forEach(id => {
                         const el = document.getElementById(id);
                         if (el) el.remove();
                     });
 
-                    // Удаляем любые div с большим z-index (Hero Wars и др.)
                     document.querySelectorAll('div').forEach(el => {
                         const style = window.getComputedStyle(el);
                         const z = parseInt(style.zIndex);
                         if (z > 1000) el.remove();
                     });
 
-                    // Удаляем любые fixed/sticky элементы, перекрывающие страницу
                     document.querySelectorAll('*').forEach(el => {
                         const style = window.getComputedStyle(el);
                         const pos = style.position;
@@ -43,7 +39,6 @@ class LoginPage:
                         }
                     });
 
-                    // Нажимаем кнопки Close / ×
                     document.querySelectorAll("button, span").forEach(el => {
                         const text = el.innerText.toLowerCase();
                         if (text.includes("close") || text.includes("×") || text.includes("schließen")) {
@@ -51,12 +46,10 @@ class LoginPage:
                         }
                     });
 
-                    // Скрываем footer
                     const footer = document.getElementsByTagName('footer')[0];
                     if (footer) footer.style.display = 'none';
                 """)
 
-                # Если iframe исчезли — выходим
                 if len(browser.all("iframe")) == 0:
                     break
 
@@ -65,6 +58,10 @@ class LoginPage:
         with allure.step("Переходим в Book Store Application"):
             card = browser.element("//h5[text()='Book Store Application']")
             card.should(be.visible)
+
+            # 🔥 ВАЖНО: скроллим карточку в центр экрана
+            browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", card())
+
             card.click()
 
         with allure.step("Переходим на страницу логина"):
