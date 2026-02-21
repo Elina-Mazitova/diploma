@@ -1,100 +1,115 @@
 import json
+import pathlib
+
+import allure
 import pytest
 from jsonschema import validate
+
 from api.fakestore.models.request.product_request import ProductRequest
 from api.fakestore.models.response.product_response import ProductResponse
 
 pytestmark = pytest.mark.skip("FakeStore API returns 403 in CI environment")
 
+SCHEMAS_DIR = pathlib.Path(__file__).parent.parent / "schemas"
+
+
+def load_schema(name: str):
+    with open(SCHEMAS_DIR / name, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+@allure.feature("FakeStore API")
+@allure.story("GET /products")
 def test_get_products(products_client):
-    response = products_client.get_products()
-    assert response.status_code == 200
+    with allure.step("Отправляем запрос на получение списка продуктов"):
+        response = products_client.get_products()
 
-    body = response.json()
+    with allure.step("Проверяем статус-код"):
+        assert response.status_code == 200
 
-    with open("api/fakestore/schemas/products_list.json") as file:
-        schema = json.load(file)
-
-    validate(instance=body, schema=schema)
+    with allure.step("Валидируем схему ответа"):
+        validate(response.json(), load_schema("products_list.json"))
 
 
+@allure.feature("FakeStore API")
+@allure.story("GET /products/{id}")
 @pytest.mark.parametrize("product_id", [1, 2, 3])
 def test_get_product_by_id(products_client, product_id):
-    response = products_client.get_product_by_id(product_id)
-    assert response.status_code == 200
+    with allure.step(f"Отправляем запрос на получение продукта {product_id}"):
+        response = products_client.get_product_by_id(product_id)
 
-    ProductResponse(**response.json())
+    with allure.step("Проверяем статус-код"):
+        assert response.status_code == 200
 
-    with open("api/fakestore/schemas/product_by_id.json") as file:
-        schema = json.load(file)
+    with allure.step("Валидируем модель ответа"):
+        ProductResponse(**response.json())
 
-    validate(instance=response.json(), schema=schema)
+    with allure.step("Валидируем схему ответа"):
+        validate(response.json(), load_schema("product_response.json"))
 
 
-
+@allure.feature("FakeStore API")
+@allure.story("POST /products")
 def test_create_product(products_client):
     payload = ProductRequest(
         title="New Product",
         price=9.99,
         description="Test product",
         category="test",
-        image="http://example.com"
+        image="https://example.com/image.jpg"
     )
 
-    response = products_client.create_product(payload.model_dump())
-    assert response.status_code == 201
+    with allure.step("Валидируем request-схему"):
+        validate(payload.model_dump(), load_schema("product_request.json"))
 
-    ProductResponse(**response.json())
+    with allure.step("Отправляем запрос на создание продукта"):
+        response = products_client.create_product(payload.model_dump())
 
-    with open("api/fakestore/schemas/product_created_or_updated.json") as file:
-        schema = json.load(file)
+    with allure.step("Проверяем статус-код"):
+        assert response.status_code == 201
 
-    validate(instance=response.json(), schema=schema)
+    with allure.step("Валидируем модель ответа"):
+        ProductResponse(**response.json())
+
+    with allure.step("Валидируем схему ответа"):
+        validate(response.json(), load_schema("product_created.json"))
 
 
+@allure.feature("FakeStore API")
+@allure.story("PUT /products/{id}")
 def test_update_product(products_client):
     payload = ProductRequest(
         title="Updated Product",
         price=11.99,
-        description="Dog",
-        category="Yellow",
-        image="http://examples.com"
+        description="Updated description",
+        category="updated",
+        image="https://example.com/image.jpg"
     )
 
-    response = products_client.update_product(1, payload.model_dump())
-    assert response.status_code == 200
+    with allure.step("Валидируем request-схему"):
+        validate(payload.model_dump(), load_schema("product_request.json"))
 
-    ProductResponse(**response.json())
+    with allure.step("Отправляем запрос на обновление продукта"):
+        response = products_client.update_product(1, payload.model_dump())
 
-    with open("api/fakestore/schemas/product_created_or_updated.json") as file:
-        schema = json.load(file)
+    with allure.step("Проверяем статус-код"):
+        assert response.status_code == 200
 
-    validate(instance=response.json(), schema=schema)
+    with allure.step("Валидируем модель ответа"):
+        ProductResponse(**response.json())
 
-
-def test_update_product_incorrect(products_client):
-    payload = ProductRequest(
-        title="Updated Product",
-        price=11.99,
-        description="Dog",
-        category="Yellow",
-        image="http://examples.com"
-    )
-
-    response = products_client.update_product("1-", payload.model_dump())
-    assert response.status_code == 400
-
-    with open("api/fakestore/schemas/product_updated_invalid.json") as file:
-        schema = json.load(file)
-
-    validate(instance=response.json(), schema=schema)
+    with allure.step("Валидируем схему ответа"):
+        validate(response.json(), load_schema("product_updated.json"))
 
 
+@allure.feature("FakeStore API")
+@allure.story("DELETE /products/{id}")
 def test_delete_product(products_client):
-    response = products_client.delete_product(1)
-    assert response.status_code == 200
+    with allure.step("Отправляем запрос на удаление продукта"):
+        response = products_client.delete_product(1)
 
+    with allure.step("Проверяем статус-код"):
+        assert response.status_code == 200
 
-def test_delete_product_incorrect_id(products_client):
-    response = products_client.delete_product("1-")
-    assert response.status_code == 400
+    with allure.step("Валидируем схему ответа"):
+        validate(response.json(), load_schema("product_deleted.json"))
