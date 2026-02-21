@@ -3,10 +3,6 @@ import allure
 from selene import browser, have, be
 
 
-import allure
-from selene import browser, have, be
-
-
 class LoginPage:
 
     @allure.step("Открываем страницу логина через главную страницу DemoQA")
@@ -17,35 +13,42 @@ class LoginPage:
         with allure.step("Скроллим вниз"):
             browser.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
-        with allure.step("Удаляем рекламу и оверлеи"):
-            browser.execute_script("""
-                document.querySelectorAll('iframe').forEach(el => el.remove());
+        with allure.step("Удаляем рекламу до полного исчезновения"):
+            for _ in range(20):  # до 20 попыток очистки
+                browser.execute_script("""
+                    // Удаляем все iframes (реклама часто в них)
+                    document.querySelectorAll('iframe').forEach(el => el.remove());
 
-                const ids = ['fixedban', 'adplus-anchor', 'google_ads_iframe'];
-                ids.forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.remove();
-                });
+                    // Удаляем известные рекламные блоки
+                    const ids = ['fixedban', 'adplus-anchor', 'google_ads_iframe'];
+                    ids.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el) el.remove();
+                    });
 
-                document.querySelectorAll('div').forEach(el => {
-                    const z = window.getComputedStyle(el).zIndex;
-                    if (z && parseInt(z) > 1000) el.remove();
-                });
+                    // Удаляем оверлеи с большим z-index
+                    document.querySelectorAll('div').forEach(el => {
+                        const z = window.getComputedStyle(el).zIndex;
+                        if (z && parseInt(z) > 1000) el.remove();
+                    });
 
-                document.querySelectorAll("button, span").forEach(el => {
-                    const text = el.innerText.toLowerCase();
-                    if (text.includes("close") || text.includes("schließen") || text.includes("×")) {
-                        try { el.click(); } catch(e) {}
-                    }
-                });
+                    // Нажимаем кнопки Close / ×
+                    document.querySelectorAll("button, span").forEach(el => {
+                        const text = el.innerText.toLowerCase();
+                        if (text.includes("close") || text.includes("schließen") || text.includes("×")) {
+                            try { el.click(); } catch(e) {}
+                        }
+                    });
 
-                const footer = document.getElementsByTagName('footer')[0];
-                if (footer) footer.style.display = 'none';
-            """)
+                    // Скрываем footer
+                    const footer = document.getElementsByTagName('footer')[0];
+                    if (footer) footer.style.display = 'none';
+                """)
 
-        with allure.step("Ждём, пока реклама исчезнет"):
-            browser.all("iframe").should(have.size(0))
-            browser.all("#fixedban").should(have.size(0))
+                if len(browser.all("iframe")) == 0:
+                    break
+
+                browser.sleep(0.3)
 
         with allure.step("Переходим в Book Store Application"):
             card = browser.element("//h5[text()='Book Store Application']")
