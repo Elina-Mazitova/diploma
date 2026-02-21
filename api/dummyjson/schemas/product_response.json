@@ -1,0 +1,60 @@
+{
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "description",
+    "price"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "discountPercentage": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "rating": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "stock": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "brand": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "category": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "thumbnail": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true
+}
