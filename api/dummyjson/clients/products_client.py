@@ -1,20 +1,19 @@
-import requests
+from api.dummyjson.clients.base_client import BaseClient
 
 
-class ProductsClient:
-    BASE_URL = "https://dummyjson.com"
+class ProductsClient(BaseClient):
 
     def get_products(self):
-        return requests.get(f"{self.BASE_URL}/products")
+        return self.get("/products")
 
-    def get_product_by_id(self, product_id):
-        return requests.get(f"{self.BASE_URL}/products/{product_id}")
+    def get_product_by_id(self, product_id: int):
+        return self.get(f"/products/{product_id}")
 
-    def create_product(self, payload: dict):
-        return requests.post(f"{self.BASE_URL}/products/add", json=payload)
+    def create_product(self, body: dict):
+        return self.post("/products/add", json=body)
 
-    def update_product(self, product_id, payload: dict):
-        return requests.put(f"{self.BASE_URL}/products/{product_id}", json=payload)
+    def update_product(self, product_id: int, body: dict):
+        return self.put(f"/products/{product_id}", json=body)
 
-    def delete_product(self, product_id):
-        return requests.delete(f"{self.BASE_URL}/products/{product_id}")
+    def delete_product(self, product_id: int):
+        return self.delete(f"/products/{product_id}")
