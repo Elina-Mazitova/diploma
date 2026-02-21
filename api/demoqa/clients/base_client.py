@@ -1,5 +1,5 @@
-import requests
 import allure
+import requests
 
 
 class BaseClient:
