@@ -1,8 +1,14 @@
-from selene import browser, have, be
 import allure
+from selene import browser, be
 
 
 class ProjectPage:
+    path = "/app/projects"
+
+    @allure.step("Открыть страницу проектов")
+    def open(self):
+        browser.open(self.path)
+        return self
 
     @allure.step("Перейти на страницу 'Мои проекты'")
     def open_projects_page(self):
@@ -11,7 +17,9 @@ class ProjectPage:
 
     @allure.step("Открыть меню 'Добавить'")
     def open_add_menu(self):
-        add_button = browser.element('//button[.//span[text()="Добавить"]]').should(be.visible)
+        add_button = browser.element(
+            '//button[.//span[text()="Добавить"]]'
+        ).should(be.visible)
         browser.driver.execute_script("arguments[0].click();", add_button())
         return self
 
@@ -27,11 +35,10 @@ class ProjectPage:
         self.select_add_project()
 
         modal = browser.element('//div[@role="dialog"]').should(be.visible)
-
         modal.element('.//input[@name="name"]').should(be.visible).type(name)
-
-        modal.element('.//button[@type="submit" and .//span[text()="Добавить"]]').click()
-
+        modal.element(
+            './/button[@type="submit" and .//span[text()="Добавить"]]'
+        ).click()
         return self
 
     @allure.step("Проверить, что проект '{name}' появился в списке")
