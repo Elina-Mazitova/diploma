@@ -1,15 +1,12 @@
-from appium.webdriver.common.appiumby import AppiumBy
-import time
 import logging
+import time
+
+from appium.webdriver.common.appiumby import AppiumBy
 
 logger = logging.getLogger(__name__)
 
 
 def onboarding_present(driver, package):
-    """
-    Проверяет, показывается ли онбординг.
-    Возвращает True, если есть кнопка Skip или текстовые экраны.
-    """
 
     if driver.find_elements(AppiumBy.ID, f"{package}:id/fragment_onboarding_skip_button"):
         return True
@@ -22,7 +19,6 @@ def onboarding_present(driver, package):
 
 
 def get_text(driver, package):
-
     for _ in range(3):
         elements = driver.find_elements(AppiumBy.ID, f"{package}:id/primaryTextView")
         if elements:
