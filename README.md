@@ -48,11 +48,6 @@
   <img src="images/07.gif" width="300">
 </p>
 
-### Mobile тест (Wikipedia)
-<p align="center">
-  <img src="images/05.gif" width="100">
-</p>
-
 
 ## 🖥️ UI (Todoist)
 
