@@ -50,7 +50,7 @@
 
 ### Mobile тест (Wikipedia)
 <p align="center">
-  <img src="images/06.gif" width="100">
+  <img src="images/05.gif" width="100">
 </p>
 
 
