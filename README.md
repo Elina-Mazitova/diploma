@@ -5,26 +5,34 @@
 
 ---
 
+
 ## 🛠 Стек технологий
 
 | Технология | Описание |
 |-----------|----------|
 | ![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white) | язык разработки |
 | ![Pytest](https://img.shields.io/badge/Pytest-Framework-orange?logo=pytest&logoColor=white) | тестовый фреймворк |
-| ![Selene](https://img.shields.io/badge/Selene-Selenium%20Wrapper-lightgrey) | обёртка над Selenium для UI‑тестов |
+| ![Selene](https://img.shields.io/badge/Selene-Selenium%20Wrapper-lightgrey) | обёртка над Selenium |
 | ![Selenium](https://img.shields.io/badge/Selenium-WebDriver-green?logo=selenium&logoColor=white) | автоматизация браузера |
-| ![Appium](https://img.shields.io/badge/Appium-Mobile%20Automation-purple?logo=appium&logoColor=white) | автоматизация мобильных приложений |
-| ![BrowserStack](https://img.shields.io/badge/BrowserStack-Cloud%20Devices-lightgrey?logo=browserstack&logoColor=white) | запуск мобильных тестов в облаке |
-| ![Requests](https://img.shields.io/badge/Requests-HTTP%20Client-red) | библиотека для API‑тестов |
-| ![Pydantic](https://img.shields.io/badge/Pydantic-Models-blue) | модели запросов/ответов для API |
-| ![JSON Schema](https://img.shields.io/badge/JSON_Schema-Validation-yellow) | валидация схем API |
-| ![Allure](https://img.shields.io/badge/Allure-Report-pink?logo=allure&logoColor=white) | отчёты о тестировании |
+| ![Appium](https://img.shields.io/badge/Appium-Mobile%20Automation-purple?logo=appium&logoColor=white) | мобильная автоматизация |
+| ![BrowserStack](https://img.shields.io/badge/BrowserStack-Cloud%20Devices-lightgrey?logo=browserstack&logoColor=white) | облачные устройства |
+| ![Requests](https://img.shields.io/badge/Requests-HTTP%20Client-red) | API‑клиент |
+| ![Pydantic](https://img.shields.io/badge/Pydantic-Models-blue) | модели запросов/ответов |
+| ![JSON Schema](https://img.shields.io/badge/JSON_Schema-Validation-yellow) | валидация схем |
+| ![Allure](https://img.shields.io/badge/Allure-Report-pink?logo=allure&logoColor=white) | отчёты |
 | ![Allure TestOps](https://img.shields.io/badge/Allure_TestOps-TMS-purple?logo=allure&logoColor=white) | управление тестами |
-| ![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-red?logo=jenkins&logoColor=white) | CI/CD пайплайн |
-| ![Telegram Bot API](https://img.shields.io/badge/Telegram-Bot-blue?logo=telegram&logoColor=white) | уведомления о прохождении тестов |
+| ![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-red?logo=jenkins&logoColor=white) | CI/CD |
+| ![Telegram Bot API](https://img.shields.io/badge/Telegram-Bot-blue?logo=telegram&logoColor=white) | уведомления |
 
 
+## 🧩 Архитектура проекта
 
+| Компонент | Технологии | Описание |
+|----------|------------|----------|
+| UI | Selene, Selenium | Page Object, тесты Todoist |
+| API | Requests, Pydantic, JSON Schema | DemoQA, DummyJSON, FakeStore |
+| Mobile | Appium, BrowserStack | Android‑тесты Wikipedia |
+| CI/CD | Jenkins, Allure, Telegram | Полный пайплайн + уведомления |
 
 ## 📌 Покрытый функционал
 
@@ -32,6 +40,14 @@
 Каждый блок покрывает ключевые пользовательские сценарии и бизнес‑логику тестируемых сервисов.
 
 ---
+
+## 🎬 Демонстрация
+
+### UI тест (Todoist)
+<p align="center">
+  <img src="images/07.gif" width="300">
+</p>
+
 
 ## 🖥️ UI (Todoist)
 
