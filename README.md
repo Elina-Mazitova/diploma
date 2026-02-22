@@ -124,39 +124,39 @@ pytest
 ## 🚀 Jenkins
 
 **Job:**  
-https://jenkins.autotests.cloud/job/Elina-Mazitova_diploma/
+[Ссылка на jenkins джобу](https://jenkins.autotests.cloud/job/Elina-Mazitova_diploma/)
 
 **Скриншот:**  
-_скрин_
+![1](images/01.png)
 
 ---
 
 ## 📊 Allure Report
 
 **Ссылка на отчёт:**  
-_отчет_
+[Ссылка на отчет](https://jenkins.autotests.cloud/job/Elina-Mazitova_diploma/79/allure/)
 
-**Скриншот overview:**  
-_скрин_
+**Скриншот дашборд:**  
+![2](images/02.png)
 
 ---
 
 ## 🧪 Allure TestOps
 
 **Проект:**  
-https://allure.autotests.cloud/project/5133/test-cases?treeId=0
+[Ссылка на проект](https://allure.autotests.cloud/project/5133/test-cases?treeId=0)
 
 **Скриншот overview:**  
-_скрин_
+![3](images/03.png)
 
 **Ручные тесты (2 шт):**  
-_скрин_
+![4](images/04.png)
 
 ---
 
 ## 📬 Telegram уведомления
 
-_скрин_
+![5](images/05.png)
 
 ---
 
