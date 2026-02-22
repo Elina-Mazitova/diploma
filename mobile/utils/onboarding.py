@@ -7,7 +7,6 @@ logger = logging.getLogger(__name__)
 
 
 def onboarding_present(driver, package):
-
     if driver.find_elements(AppiumBy.ID, f"{package}:id/fragment_onboarding_skip_button"):
         return True
 

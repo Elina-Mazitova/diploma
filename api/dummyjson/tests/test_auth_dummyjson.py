@@ -37,7 +37,6 @@ def test_login_success(auth_client):
 @allure.feature("DummyJSON API")
 @allure.story("POST /auth/login — неверные данные")
 def test_login_wrong_username(auth_client):
-
     payload = {
         "password": "whatever"
     }
@@ -50,4 +49,3 @@ def test_login_wrong_username(auth_client):
 
     with allure.step("Проверяем сообщение об ошибке"):
         assert response.json()["message"] == "Username and password required"
-
