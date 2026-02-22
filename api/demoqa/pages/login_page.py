@@ -1,5 +1,5 @@
 import allure
-from selene import browser, be
+from selene import browser, be, have
 
 
 class LoginPage:
@@ -39,3 +39,14 @@ class LoginPage:
             browser.element("#userName").should(be.visible)
 
         return self
+
+    @allure.step("Выполняем логин в UI")
+    def login(self, username: str, password: str):
+        browser.element("#userName").type(username)
+        browser.element("#password").type(password)
+        browser.element("#login").click()
+        return self
+
+    @allure.step("Проверяем, что пользователь '{username}' успешно авторизован")
+    def should_be_logged_in_as(self, username: str):
+        browser.element("#userName-value").should(have.text(username))
