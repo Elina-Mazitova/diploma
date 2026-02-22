@@ -24,6 +24,9 @@ class TestTasks:
     @allure.tag("ui", "tasks", "due_date")
     def test_create_task_with_due_date(self, authorized_user):
         page = TaskPage()
+        page.add_task_button.wait_until(be.present)
+        page.add_task_button.wait_until(be.visible)
+        browser.element('.rtbnZ8S').wait_until(be.not_.visible)
         page.create_task_with_due_date("задача два")
         page.should_see_task("задача два")
         page.should_have_due_date("задача два", "Завтра")
