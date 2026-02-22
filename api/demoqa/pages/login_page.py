@@ -1,3 +1,4 @@
+import time
 import allure
 from selene import browser, be, have
 
@@ -24,11 +25,16 @@ class LoginPage:
             card.click()
 
         with allure.step("Удаляем рекламу на странице Book Store"):
-            browser.driver.execute_script("""
-                document.querySelectorAll('iframe').forEach(el => el.remove());
-                const ad = document.getElementById('fixedban');
-                if (ad) ad.remove();
-            """)
+            for _ in range(5):
+                browser.driver.execute_script("""
+                    document.querySelectorAll('iframe').forEach(el => el.remove());
+                    const ad = document.getElementById('fixedban');
+                    if (ad) ad.remove();
+                """)
+                time.sleep(0.3)
+
+        with allure.step("Возвращаемся наверх страницы"):
+            browser.driver.execute_script("window.scrollTo(0, 0);")
 
         with allure.step("Переходим на страницу логина"):
             login_button = browser.element("#login")
