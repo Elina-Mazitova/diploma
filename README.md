@@ -1,12 +1,15 @@
-# 🎓 Diploma Project: UI + API + Mobile Automated Testing
 
-Автоматизированный тестовый проект, включающий UI‑тесты (Todoist), API‑тесты (DemoQA, DummyJSON, FakeStore) и Mobile‑тесты (Wikipedia на Android).  
-Проект использует современный стек инструментов, интеграции с Jenkins, Allure Report, Allure TestOps и Telegram‑уведомлениями.
+<div align="center">
+
+# 🎓 Diploma Project  
+### UI • API • Mobile Automated Testing  
+
+</div>
 
 ---
 
+<h2 align="center">🛠 Стек технологий</h2>
 
-## 🛠 Стек технологий
 
 | Технология | Описание |
 |-----------|----------|
@@ -24,8 +27,9 @@
 | ![Jenkins](https://img.shields.io/badge/Jenkins-CI%2FCD-red?logo=jenkins&logoColor=white) | CI/CD |
 | ![Telegram Bot API](https://img.shields.io/badge/Telegram-Bot-blue?logo=telegram&logoColor=white) | уведомления |
 
+---
 
-## 🧩 Архитектура проекта
+<h2 align="center"> 🧩 Архитектура проекта</h2>
 
 | Компонент | Технологии | Описание |
 |----------|------------|----------|
@@ -34,13 +38,15 @@
 | Mobile | Appium, BrowserStack | Android‑тесты Wikipedia |
 | CI/CD | Jenkins, Allure, Telegram | Полный пайплайн + уведомления |
 
-## 📌 Покрытый функционал
+---
+
+<h2 align="center"> 📌 Покрытый функционал</h2>
 
 Проект включает три направления автоматизации: **UI**, **API** и **Mobile**.  
 Каждый блок покрывает ключевые пользовательские сценарии и бизнес‑логику тестируемых сервисов.
 
 ---
-## 🖥️ UI (Todoist)
+<h3 align="center">  🖥️ UI (Todoist)</h3>
 
 <table>
 <tr>
@@ -62,8 +68,12 @@
 </td>
 </tr>
 </table>
+
+
 ---
-## 🔌 API (DemoQA, DummyJSON, FakeStore)
+
+
+<h3 align="center">  🔌 API (DemoQA, DummyJSON, FakeStore) </h3>
 
 | API | Покрытие |
 |-----|----------|
@@ -71,9 +81,11 @@
 | 🛒 DummyJSON | Авторизация; товары (GET/POST/PUT/DELETE); схемы |
 | 🏷️ FakeStore | Товары (GET/POST/PUT/DELETE); модели; схемы |
 
+
 ---
 
-## 📱 Mobile (Wikipedia, Android)
+
+<h3 align="center">  📱 Mobile (Wikipedia, Android) </h3>
 <table>
 <tr>
 <td>
@@ -92,9 +104,10 @@
 </tr>
 </table>
 
+
 ---
 
-## ▶️ Запуск тестов
+<h2 align="center"> ▶️ Запуск тестов </h2>
 
 | Тип тестов | Команда |
 |-----------|---------|
@@ -103,9 +116,9 @@
 | 📱 Mobile | `pytest -m mobile` |
 | 🔄 Все тесты | `pytest` |
 
+---
 
-
-## 🚀 Jenkins
+<h2 align="center"> 🚀 Jenkins</h2>
 
 **Job:**  
 [Ссылка на jenkins джобу](https://jenkins.autotests.cloud/job/Elina-Mazitova_diploma/)
@@ -115,9 +128,9 @@
 
 ---
 
-## 📊 Allure Report
+<h2 align="center">  📊 Allure Report</h2>
 
-**Ссылка на отчёт:**  
+**Отчёт:**  
 [Ссылка на отчет](https://jenkins.autotests.cloud/job/Elina-Mazitova_diploma/79/allure/)
 
 **Скриншот дашборд:**  
@@ -125,7 +138,7 @@
 
 ---
 
-## 🧪 Allure TestOps
+<h2 align="center"> 🧪 Allure TestOps</h2>
 
 **Проект:**  
 [Ссылка на проект](https://allure.autotests.cloud/project/5133/test-cases?treeId=0)
@@ -138,15 +151,13 @@
 
 ---
 
-## 📬 Telegram уведомления
+<h2 align="center"> 📬 Telegram уведомления</h2>
 
 ![5](images/05.png)
 
----
 
-## 👤 Автор
 <p align="center">
-  Сделано с ❤️ для дипломного проекта  
+  Сделано с 💜 для дипломного проекта QA Guru 
   <br>
   <a href="https://github.com/Elina-Mazitova">GitHub Элины Мазитовой</a>
 </p>
